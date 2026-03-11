@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> BREEZY's Rock-Paper-Scissors-Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: linear-gradient(to right, #ff7e5f, #feb47b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+
+        .score-section {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .score-value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            margin-bottom: 40px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 3.5em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            flex: 1;
+            min-width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .choice-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .result-area {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .choices-display {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 4em;
+        }
+
+        .choice-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .choice-label {
+            font-size: 0.3em;
+            color: #666;
+        }
+
+        .vs {
+            font-size: 1.5em;
+            color: #999;
+            font-weight: bold;
+        }
+
+        .result-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            min-height: 30px;
+        }
+
+        .result-win {
+            color: #4caf50;
+        }
+
+        .result-lose {
+            color: #f44336;
+        }
+
+        .result-draw {
+            color: #ff9800;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .choice-btn {
+                font-size: 2.5em;
+                padding: 15px;
+            }
+
+            .choices-display {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 BREEZY's Rock Paper Scissors</h1>
+        <p class="subtitle">Beat the Computer!</p>
+
+        <div class="score-board">
+            <div class="score-section">
+                <div class="score-label">Your Score</div>
+                <div class="score-value" id="playerScore">0</div>
+            </div>
+            <div class="score-section">
+                <div class="score-label">Computer Score</div>
+                <div class="score-value" id="computerScore">0</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="buttons-container">
+                <button class="choice-btn" onclick="play('rock')" title="Rock">✊</button>
+                <button class="choice-btn" onclick="play('paper')" title="Paper">✋</button>
+                <button class="choice-btn" onclick="play('scissors')" title="Scissors">✌️</button>
+            </div>
+
+            <div class="result-area">
+                <div class="choices-display">
+                    <div class="choice-item">
+                        <div id="playerChoice">-</div>
+                        <div class="choice-label">You</div>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="choice-item">
+                        <div id="computerChoice">-</div>
+                        <div class="choice-label">Computer</div>
+                    </div>
+                </div>
+                <div class="result-text" id="result"></div>
+            </div>
+            <p> folllow breezy for more interesting project's on instagram@bre_ezy324</p>
+            <button class="reset-btn" onclick="resetGame()">🔄 Reset Game</button>
+        </div> 
+
+    </div>
+    
+
+    <script>
+        document.body.addEventListener('keydown',(event)=>{
+         if(event.key==='r') {
+          play('rock');
+         } else if (event.key==='p') {
+            play('paper');
+         } else if (event.key==='s'){
+            play('scissors');
+         }
+        });
+        let playerScore = 0;
+        let computerScore = 0;
+
+        const emojiMap = {
+            rock: '✊',
+            paper: '✋',
+            scissors: '✌️'
+        };
+
+        function play(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            const result = document.getElementById('result');
+            
+            // Update choice display
+            document.getElementById('playerChoice').innerText = emojiMap[playerChoice];
+            document.getElementById('computerChoice').innerText = emojiMap[computerChoice];
+
+            if (playerChoice === computerChoice) {
+                result.innerText = `It's a Draw!`;
+                result.className = 'result-text result-draw';
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                playerScore++;
+                result.innerText = `🎉 You Win!`;
+                result.className = 'result-text result-win';
+            } else {
+                computerScore++;
+                result.innerText = `💻 You Lose!`;
+                result.className = 'result-text result-lose';
+            }
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('playerScore').innerText = playerScore;
+            document.getElementById('computerScore').innerText = computerScore;
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('playerChoice').innerText = '-';
+            document.getElementById('computerChoice').innerText = '-';
+            document.getElementById('result').innerText = '';
+            updateScore();
+        }
+    </script>
+</body>
+</html>
